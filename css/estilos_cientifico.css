@@ -1,0 +1,160 @@
+/*Álvaro Rodríguez Gallardo*/
+
+/*Mismos comentarios que en estilos.css, a diferencia de que aquí aparece el botón*/
+
+h1 {
+    font-size: 300%;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.imagen_logo {
+    max-width: 40%;
+    max-height: 60%;
+    position: relative;
+    float: left; /*Con esto comsigo que la imagen quede a la izquierda y el texto se ajuste según el zoom*/
+}
+
+.posicion_titulo {
+    text-align: center;   
+}
+
+.wrapper_pagina {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 20px;
+}
+
+header {
+    grid-column: 1/4;
+    grid-row: 1;
+    border-radius: 5px;
+    background-color: yellowgreen;
+    border: 2px solid yellow;
+}
+
+aside {
+    border-radius: 2px;
+    grid-row: 2;
+    grid-column: 3;
+    background-color: burlywood;
+    border: brown;
+    text-align: center;    
+}
+
+main {
+    border-radius: 2px;
+    grid-row: 2;
+    grid-column: 1/3;
+}
+
+footer {
+    border-radius: 5px;
+    background-color: yellowgreen;
+    border: 2px solid yellow;
+    grid-row: 3;
+    grid-column: 1/4;
+    text-align: center;
+}
+
+.box {
+    border-radius: 5px;
+    background-color: #fff4e6;
+}
+
+.centrada {
+    text-align: center;
+}
+
+body {
+    background-color: lightblue;
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 200%;
+}
+
+.menu li {
+    display: inline-block;
+}
+  
+.menu li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.color_pie {
+    color : blue;
+}
+
+/*Creación de una pequeña caja para la creación de los botones usados en cientifico.html*/
+.boton {
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+    left: 5px;
+}
+
+#visibilidad_comentarios {
+    position: fixed;
+    top: 0px;       /*Para que quepa el mayor número de comentarios*/
+    right: -500px;  /*En un principio, debe estar escondido en el lateral derecho*/
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+#contacto {
+    width:540px;
+    float: left;
+}
+
+#caja {
+    width:350px; 
+    background-color: orange;
+    color:white;
+    font-size:18px;
+    float:left;
+    margin:40px;
+}
+
+#nombres {
+    width:100px; 
+    float:left; 
+    color: white;
+    font-size:18px;
+}
+
+#campos {
+    width:230px;
+    float:left;
+}
+
+#comentario {
+    text-align:center
+}
+
+.caja_comentario {
+    border: 1px solid black;
+    background-color: white;
+    padding: 10px;
+    white-space: pre-line;  /*Intentar preservar espacios de manera uniforme*/
+}
+
+.caja_comentario_fondo {
+    background-color:skyblue;
+}
