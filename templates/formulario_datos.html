@@ -1,0 +1,33 @@
+{% extends "registrar.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página de registro
+		</title>
+		<script src="js/control_sesiones.js"></script>
+		<script>
+			if({{ error }})
+				alert("El nuevo nick está siendo usado por otro usuario");
+		</script>
+		<link href="css/estilos_registro_inicio.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block mostrar_datos %}
+    <h2>
+        Formulario de modificación de datos
+    </h2>
+
+    <h3>Tus datos actuales son: </h3>
+    <p>Nombre: {{ datos.nombre }}</p>
+    <br>
+    <p>Apellidos: {{ datos.apellidos }}</p>
+    <br>
+    <p>Correo: {{ datos.correo }}</p>
+    <br>
+    <p>Nick: {{ datos.nick }}</p>
+    <br>
+    <p>Vuelva a introducir todos los datos con los cambios realizados</p>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página principal
+		</title>
+		<link href="css/estilos.css" rel="stylesheet" type="text/css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			    const remarcar = {{ cadena_remarcar | json_encode | raw }};
+		</script>
+{% endblock %}
+
+
+		{% block central %}
+			<div class="wrapper">
+				{% for consulta in cientificos %}
+					{% if consulta.publicado == 1 or (consulta.publicado==0 and es_gestor) %}
+						<div class="box">
+							<p>
+								<a href="{{ consulta.ruta_cientifico }}"><img class="cientificos_menu" src="{{ consulta.ruta_imagen }}"></a><!--Por defecto, va a mostrar la PRIMERA imagen del científico que haya en la tabla 'galeria'-->
+							</p>
+							<p class="resaltar">
+								{{ consulta.nombre }} {{ consulta.apellidos }}
+							</p>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<script src="js/buscador.js"></script>
+
+		{% endblock %}

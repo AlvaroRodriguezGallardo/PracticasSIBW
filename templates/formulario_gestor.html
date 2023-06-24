@@ -1,0 +1,156 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página de gestión
+		</title>
+		<script src="js/control_sesiones.js"></script>
+    <!--    <script>
+            if({{ error }}) {
+                alert("Error. Revise algún campo. Las extensiones permitidas son .png, .jpg y .jpeg. Procure que no sea muy grande la imagen. Recuerde que, si introduce el ID del científico, debe introducir otra información");
+            }
+        </script>-->
+		<link href="css/estilos_gestor.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block central %}
+        <h2>A continuación se muestra los científicos de la base de datos, junto a su ID característico</h2>
+        {% for info in todaInfo %}
+        <div id="caja_cientifico">
+            <p>{{ info.nombre }} {{ info.apellidos }}. ID={{ info.id }}</p> 
+            <br>
+            <p>Imágenes y su ID</p>
+                {% for imag in info[7] %}
+                    <p>ID imagen: {{ imag.id_imagen }}</p>
+                    <img src="{{ imag.ruta_imagen }}" width="300px" height="350px">
+                    <p>Pie imagen: {{ imag.pie_foto }}</p>
+                    <br>
+                {% endfor %}
+            <br>
+            <p>Enlaces y su ID</p>
+                {% for enl in info[8] %}
+                    <p>ID enlace: {{ enl.id_enlace }}</p>
+                    <a href="{{ enl.enlace }}">{{ enl.comentario }}</a>
+                    <br>
+                {% endfor %}
+            <br>
+        </div> 
+        {% endfor %}
+
+        <form action="" method="POST" id="buscador_nombre" name="buscador_nombre">
+            <label for="buscador_nombre">Buscar por nombre</label><br>
+            <input type="text" id="buscador_nombre" name="buscador_nombre"/><br>
+            <button type="submit"><img class="iconos" src="imgs/buscar.png"></button>
+        </form>
+        <form action="" method="POST" id="buscador_bio" name="buscador_bio">
+            <label for="buscador_bio">Buscar por biografía</label><br>
+            <input type="text" id="buscador_bio" name="buscador_bio"/><br>
+            <button type="submit"><img class="iconos" src="imgs/buscar.png"></button>
+        </form>
+
+        {% if aniade %}
+            <h2>Formulario para añadir científico</h2>
+            <form action="" method="POST" id="formulario_aniade" name="formulario_aniade" enctype="multipart/form-data">			
+                <div id="caja_gestor"> 
+                    <div id="nombres_gestor">
+                        <label for="nombre_aniade">Nombre:</label> <br>
+                        <input type="text" id="nombre_aniade" name="nombre_aniade" /> <br>
+                        <label for="apellidos_aniade">Apellidos:</label><br>
+                        <input type="text" id="apellidos_aniade" name="apellidos_aniade" /> <br>
+                        <label for="fec_nac_aniade">Fecha de nacimiento. Forma YYYY/MM/dd:</label><br>
+                        <input type="text" id="fec_nac_aniade" name="fec_nac_aniade" /><br>
+                        <label for="fec_mu_aniade">Fecha de mueste. Forma YYYY/MM/dd: </label><br>
+                        <input type="text" id="fec_mu_aniade" name="fec_mu_aniade" /><br>
+                        <label for="ciudad_aniade">Ciudad de nacimiento:</label><br>
+                        <input type="text" id="ciudad_aniade" name="ciudad_aniade" /><br>
+                        <label for="biografia_aniade">Biografía:</label><br>
+                        <input type="text" id="biografia_aniade" name="biografia_aniade" /><br>
+                        <label for="enlace_aniade">Enlace: </label><br>
+                        <input type="text" id="enlace_aniade" name="enlace_aniade" /><br>
+                        <label for="nombre_enlace">Nombre del enlace:</label><br>
+                        <input type="text" id="nombre_enlace" name="nombre_enlace" /><br>
+                        <label for="imagen_aniade">Imagen</label><br>
+                        <input type="file" id="imagen_aniade" name="imagen_aniade" /><br>
+                        <label for="pie_imagen_aniade">Pie de la imagen: </label><br>
+                        <input type="text" id="pie_imagen_aniade" name="pie_imagen_aniade" /><br>
+                        <label for="hastag_aniade">Hastag: </label><br>
+                        <input type="text" id="hastag_aniade" name="hastag_aniade" />
+                    </div>
+                    <br>
+                    <div id="enviar_gestor">
+                        <button type="submit" class="boton" onclick="comprobarAniade()">Guardar cambios</button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+        {% if edita %}
+            <h2>Formulario para editar científico</h2>
+            <h3>Nota: si va a introducir más de una foto/enlace, rellene tantas veces el formulario como haga falta</h3>
+            <form action="" method="POST" id="formulario_edita" name="formulario_edita" enctype="multipart/form-data">			
+                <div id="caja_gestor"> 
+                    <div id="nombres_gestor">
+                        <label for="id_modif">ID(*):</label><br>
+                        <input type="text" id="id_modif" name="id_modif" /> <br>
+                        <label for="nombre_edita">Nombre:</label>		<br>
+                        <input type="text" id="nombre_edita" name="nombre_edita" />		<br>			
+                        <label for="apellidos_edita">Apellidos:</label><br>
+                        <input type="text" id="apellidos_edita" name="apellidos_edita"/><br>
+                        <label for="ciudad_edita">Ciudad:</label><br>
+                        <input type="text" id="ciudad_edita" name="ciudad_edita" /><br>
+                        <label for="fec_nacim_edita">Fecha de nacimiento. Forma YYYY/MM/dd:</label><br>
+                        <input type="text" id="fec_nacim_edita" name="fec_nacim_edita" /><br>
+                        <label for="fec_muerte_edita">Fecha de muerte. Forma YYYY/MM/dd:</label><br>
+                        <input type="text" id="fec_muerte_edita" name="fec_muerte_edita" /><br>
+                        <label for="biografia_edita">Biografía: </label><br>
+                        <input type="text" id="biografia_edita" name="biografia_edita" /><br>
+                        <label for="aniade_enlaces_edita">Enlace nuevo:</label><br>
+                        <input type="text" id="aniade_enlaces_edita" name="aniade_enlaces_edita" /><br>
+                        <label for="nombre_enlaces_edita">Nombre de enlace, si procede: (*)</label><br>
+                        <input type="text" id="nombre_enlaces_edita" name="nombre_enlaces_edita" /><br>
+                        <label for="aniade_fotos_edita">Foto nueva</label><br>
+                        <input type="file" id="aniade_fotos_edita" name="aniade_fotos_edita" /><br>
+                        <label for="pie_foto_edita">Pie de foto nueva:</label><br>
+                        <input type="text" id="pie_foto_edita" name="pie_foto_edita" /><br>
+                        <label for="foto_elimina">ID de la foto a eliminar, si procede:</label><br>
+                        <input type="text" id="foto_elimina" name="foto_elimina" /><br>
+                        <label for="enlace_elimina">ID del enlace a eliminar, si procede:</label><br>
+                        <input type="text" id="enlace_elimina" name="enlace_elimina" /><br>
+                        <label for="id_modifica_pie_foto">ID de la foto cuyo pie se modificará, si procede:</label><br>
+                        <input type="text" id="id_modifica_pie_foto" name="id_modifica_pie_foto" /><br>
+                        <label for="modifica_pie_foto">Nuevo pie de foto, SI HA RELLENADO LA CASILLA ANTERIOR:</label><br>
+                        <input type="text" id="modifica_pie_foto" name="modifica_pie_foto" /><br>
+                        <label for="id_modifica_nombre_enlace">ID del enlace cuyo nombre se modificará:</label><br>
+                        <input type="text" id="id_modifica_nombre_enlace" name="id_modifica_nombre_enlace" /><br>
+                        <label for="modifica_nombre_enlace">Nuevo nombre del enlace, SI HA RELLENADO LA CASILLA ANTERIOR</label><br>
+                        <input type="text" id="modifica_nombre_enlace" name="modifica_nombre_enlace" /><br>
+                        <label for="hastag_aniade_modif">Hastag: </label><br>
+                        <input type="text" id="hastag_aniade_modif" name="hastag_aniade_modif" />
+                        <label for="publica">¿Publicar? Sí=1, No=0</label>
+                        <input type="text" id="publica" name="publica" />
+                    </div>
+                    <br>
+                    <div id="enviar_gestor">
+                        <button type="submit" class="boton" onclick="comprobarID1()">Guardar cambios</button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+        {% if elimina %}
+            <h2>Formulario para eliminar científico</h2>
+            <form action="" method="POST" id="formulario_aniade" name="formulario_aniade">			
+                <div id="caja_gestor"> 
+                    <div id="nombres_gestor">
+                        <label for="ID_elimina">ID del científico a eliminar:</label> <br>
+                        <input type="text" id="ID_elimina" name="ID_elimina" /> <br>
+                    </div>
+                    <br>
+                    <div id="enviar_gestor">
+                        <button type="submit" class="boton" onclick="comprobarID2()">Guardar cambios</button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+{% endblock %}

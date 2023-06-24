@@ -1,0 +1,119 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<meta charset="utf-8">
+		<title>
+			{{ infoCientifico.nombre }} {{ infoCientifico.apellidos }}
+		</title>
+		<link href="css/estilos_cientifico.css" rel="stylesheet" type="text/css" />
+		<link href="css/estilos_gestor.css" rel="stylesheet" type="text/css" />
+		<script src="js/comentarios.js"></script>
+		<script>
+			const palabrasProhibidas = {{ prohibidas | json_encode | raw }};
+		</script>
+		
+{% endblock %}
+
+				{% block central %}
+				<div class="wrapper">	<!--Uso de grid-layout para poder separar en dos cajas: la biografía con enlaces y las imágenes. Este es diferente al usado en portada.html-->
+					<div class="box">	<!--Aquí va la información-->	
+						{% block info_cientifico %}
+						<h1>{{ infoCientifico.nombre }} {{ infoCientifico.apellidos }}</h1>
+						<h2>{{ infoCientifico.fNacimiento }} / {{ infoCientifico.fMuerte }}</h2>
+						<h2>{{ infoCientifico.ciudadNacimiento }}</h2>	
+
+						<article>	<!--Uso exclusivo de esta etiqueta al tratarse de la biografía. -->
+							{{ infoCientifico.biografia | raw }}
+						</article>
+
+						<h2>
+							Enlaces asociados al personaje
+						</h2>
+						<!--Enlaces asociados al personaje en cuestión con información adicional a la mostrada en la página-->
+						{% for consulta in enlaces %}
+							<a href="{{ consulta.enlace }}">{{ consulta.comentario }}</a>
+							<br>
+						{% endfor %}
+						<br><br>
+
+						{% endblock %}
+						<!-- Hastags del científico-->
+						{% for hastag in hastags %}
+							<a href="portada-{{ hastag.hastag }}">#{{ hastag.hastag }}</a><br><br>
+						{% endfor %}
+						<!--Ahora se ponen los botones-->
+						{% block botones_visibilidad %}
+						<a href="https://es-es.facebook.com/" class="boton">
+							FB
+						</a>
+						<a href="https://twitter.com/?lang=es" class="boton">
+							TW
+						</a>
+						<a href="{{ infoCientifico.ruta_cientifico_imprimir }}" class="boton">
+							Imprimir
+						</a>
+						{% endblock %}
+						<button type="button" class="boton" onclick="mostrarOcultarComentarios();">Comentarios</button>    <!--Botón para abrir y 'cerrar' la caja de comentarios-->
+						{% if es_gestor %}
+						<br><br>
+						<a href="/gestionar-edicion"><img class="iconos" src="imgs/edicion.png"></a>
+						<a href="/gestionar-aniade"><img class="iconos" src="imgs/aniade.svg"></a>
+						<a href="/gestionar-elimina"><img class="iconos" src="imgs/eliminar.png"></a>
+						{% endif %}
+					</div>
+
+					{% block imag_cientificos %}
+					<div class="box centrada">	<!--Aquí van las imágenes-->
+						<br>
+						{% for consulta in imagenes %}
+							<img src="{{ consulta.ruta_imagen }}" width="300px" height="350px">
+							<p>{{ consulta.pie_foto }}</p>
+						{% endfor %}
+
+					</div>
+					{% endblock %}
+					<div class="box" id="visibilidad_comentarios">		<!--Parte de la página reservada a comentarios--> <!--Otra opción es que aún sin que aparezcan los comentarios aparezca la box de fondo-->
+						<h2 class="centrada">Sección de comentarios</h2>
+						<pre class="caja_comentario">	<!--Todos los comentarios van dentro de una caja blanca, pienso que queda bien-->
+							{% for consulta in comentarios %}
+							<p class="caja_comentario_fondo">{{ consulta.nombre_usuario }}
+
+								{{ consulta.fecha }}
+								
+								{{ consulta.comentario }}
+								{% if es_moderador %}
+								<a href="/eliminar-comentario-{{ consulta.id_comentario }}"><img height="30px" width="30px" src="imgs/eliminar.png" /></a>								<a href="/modificar-comentario-{{ consulta.id_comentario }}"><img height="30px" width="30px" src="imgs/edicion.png" /></a>
+	
+								{% endif %}
+							</p>
+							{% endfor %}
+							<div id="seccion_comentarios"></div>
+						</pre>
+						<!--Aquí se introduce el formulario a rellenar-->
+						{% if esta_registrado %}	
+						<form action="" method="POST" id="formulario" name="formulario">			
+							<div id="caja"> 
+								<div id="nombres">
+									<label for="nombre">Nombre:</label>					
+									<label for="email">Mail:</label>
+									<label for="miComentario">Comentario:</label>
+								</div>
+								<div id="campos">
+									<input type="text" id="nombre"name="nombre" />							
+									<input type="text" id="email" name="email"/>
+								</div>
+								<div id="comentario">
+									<textarea id="miComentario" name="comentario" cols="40" rows="10" oninput="censurarPalabra()"></textarea>	<!--Sitio donde se escribe el comentario-->
+								</div>
+								<br>
+								<div id="enviar">
+									<button type="submit" class="boton" onclick="enviarComentario()">Enviar</button>
+								</div>
+							</div>
+						</form>
+						{% endif %}
+					</div>
+				</div>
+
+	
+			{% endblock %}

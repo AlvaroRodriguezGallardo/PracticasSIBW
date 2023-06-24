@@ -1,0 +1,50 @@
+{% extends "cientifico.html" %}
+
+	{% block head %}
+		<meta charset="utf-8">
+		<title>
+			{{ infoCientifico.nombre }} {{ infoCientifico.apellidos }}
+		</title>
+		<link href="css/estilos_imprimir.css" rel="stylesheet" type="text/css" />
+	{% endblock %}
+
+		{% block menu_extra %}
+			<nav class="menu visibilidad"> <!--EN CADA OPCIÓN HAY QUE PONER UN ENLACE A UNA PÁGINA-->
+				{{ parent() }}
+			</nav>
+		{% endblock %}
+
+		{% block central %}
+				<div class="wrapper">
+					<div class="box">	<!--Aquí va la información-->
+						{% block info_cientifico %}	
+
+							{{ parent() }}
+
+						{% endblock %}
+
+						{% block botones_visibilidad %}
+						<a href="#" class="boton visibilidad">
+							FB
+						</a>
+						<a href="#" class="boton visibilidad">
+							TW
+						</a>
+						<a href="#" class="boton visibilidad">
+							Imprimir
+						</a>	
+						{% endblock %}
+					</div>
+
+					{% block imag_cientificos %}
+						{{ parent() }}
+					{% endblock %}
+				</div>
+
+			{% endblock %}
+		
+			{% block enlaces_extra %}
+				<aside class="visibilidad">
+					{{ parent() }}
+				</aside>
+			{% endblock %}

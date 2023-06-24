@@ -1,0 +1,57 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página del moderador
+		</title>
+        <link href="css/estilos_moderador.css" rel="stylesheet" type="text/css" />
+        <script src="js/comentarios.js"></script>
+
+{% endblock %}
+
+{% block central %}
+        {% if modificando %}
+            <h2>Formulario para editar comentario</h2>
+            <p>{{ comentario }}</p>
+            <form action="" method="POST" id="formulario" name="formulario">			
+                <div id="caja"> 
+                    <div id="comentario_modif">
+                        <textarea id="comentario_modif" name="comentario_modif" cols="40" rows="10" oninput="censurarPalabra()"></textarea>	<!--Sitio donde se escribe el comentario-->
+                    </div>
+                    <br>
+                    <div id="enviar">
+                        <button type="submit" class="boton">Modificar</button>
+                    </div>
+                </div>
+            </form>
+        {% else %}
+            <h2>Listado de comentarios por científico</h2>
+            {% for comentario in lista %}
+                <h3>{{ comentario.nombre }} {{ comentario.apellidos }}</h3>
+                <div id="caja_cientifico">
+                    <p>{{ comentario.nombre_usuario }}</p><br>
+                    <p>{{ comentario.fecha }}</p><br>
+                    <p>{{ comentario.comentario }}</p><br>
+                    <a href="/eliminar-comentario-{{ comentario.id_comentario }}"><img height="30px" width="30px" src="imgs/eliminar.png" /></a>	
+					<a href="/modificar-comentario-{{ comentario.id_comentario }}"><img height="30px" width="30px" src="imgs/edicion.png" /></a>
+                </div>
+                <br>
+            {% endfor %}
+            <h2>Filtrar por científico</h2>
+            <form action="" method="POST" id="formulario" name="formulario">			
+                <div id="caja"> 
+                        <label for="nombre_buscar">Nombre:</label>		<br>			
+                        <input type="text" id="nombre_buscar"name="nombre_buscar" /><br>
+                        <label for="apellidos_buscar">Apellidos:</label><br>						
+                        <input type="text" id="apellidos_buscar" name="apellidos_buscar"/>
+                    <br>
+                    <div id="enviar">
+                        <button type="submit" class="boton" onclick="revisarFiltro()">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+{% endblock %}

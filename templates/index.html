@@ -1,0 +1,22 @@
+{% extends "padre.html" %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <title>
+        Buscador
+    </title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/buscador.js"></script>
+    <script>
+        const es_gestor_comp = {{ es_gestor | json_encode | raw }};
+    </script>
+{% endblock %}
+
+{% block central %}
+    <form action="" method="POST" id="busqueda">
+        <input type="text" id="busqueda_lista" name="busqueda_lista" />
+        <button type="submit" id="boton_buscar" style="background-color: blue; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; position: relative; left: 5px;">Buscar</button>
+    </form>
+    <ul id="lista_nombres"></ul>
+{% endblock %}

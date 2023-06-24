@@ -1,0 +1,85 @@
+<!--Álvaro Rodríguez Gallardo-->
+
+<html>
+	<head>
+		{% block head %}
+		<p>Cabecera</p>
+		{% endblock %}
+	</head>
+
+	<body>
+		<div class="wrapper_pagina">
+			<header><!--Parte del logo y presentación de la página web-->
+				<a href="#">
+						<img src="imgs/logo.png" class="imagen_logo" />
+				</a>
+
+				<h1 class="posicion_titulo">Biografías y ciencia</h1>
+					<!--Para hacer un menú como el que piden, uso la etiqueta 'nav' y una class en fichero css. Info en https://developer.mozilla.org/es/docs/Web/HTML/Element/nav-->
+					{% block menu_extra %}
+					<nav class="menu"> <!--EN CADA OPCIÓN HAY QUE PONER UN ENLACE A UNA PÁGINA-->
+						<ul>
+						<!--	<li><a href="/">Portada</a></li>-->
+						<!--	<li><a href="/cientifico-David-Hilbert">Científico</a></li>-->
+						<!--	<li><a href="/cientifico-imprimir-David-Hilbert">Científico Imprimir</a></li>-->
+								
+								{% if esta_registrado %}
+									<li><a href="/modificar">Editar perfil</a></li>
+									<li><a href="/cerrar">Cerrar sesión</a></li>
+								{% else %}
+									<li><a href="/iniciar-sesion">Iniciar sesión</a></li>
+									<li><a href="/registrarse">Registrarse</a></li>
+								{% endif %}
+								{% if es_super %}
+									<li><a href="/permisos">Permisos</a></li>
+								{% endif %}
+								{% if es_moderador %}
+									<li><a href="/listar-comentarios">Moderar</a></li>
+								{% endif %}
+						</ul> 
+				</nav>
+					{% endblock %}
+			</header>
+
+			<main><!--Parte principal de la portada. Uos de grid-layout para poder introducir más o menos científicos-->
+				{% block central %}
+                <p>Parte central de la plantilla</p>
+                {% endblock %}
+			</main>
+
+			<aside>
+				{% block enlaces_extra %}
+				<h2>
+					Enlaces interesantes
+				</h2><!--Enlace a una página de interés, procurando que haya equidad entre todos los ámbitos científicos que se hayan en esta página-->
+				{% for consulta in enlacesPanelDerecho %}
+				<a href="{{ consulta.enlace }}">{{ consulta.area }}</a>
+				<br>
+				{% endfor %}
+				{% endblock %}
+			</aside>
+
+			
+			<footer>
+				<!--Información de contacto y copyright-->
+				<p class="color_pie">
+					&copy; 2023 - Álvaro Rodríguez Gallardo
+				</p>
+
+				<p>
+					Correo de contacto:
+					<addres>
+						alvaro155w@gmail.com
+					</addres>
+				</p>
+
+				<p>
+					Teléfono de contacto:
+					<addres>
+						693796726
+					</addres>
+				</p>
+			</footer>
+		</div>
+	</body>
+</html>

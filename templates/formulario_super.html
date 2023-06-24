@@ -1,0 +1,47 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página de gestión
+		</title>
+		<script src="js/control_sesiones.js"></script>
+		<link href="css/estilos_super.css" rel="stylesheet" type="text/css" />
+        <script>
+			if({{ error }}) {
+                alert("Error en el cambio de roles. Recuerde que al menos debe haber un superusuario. Tal vez has intentado darle a un usuario un rol que ya tenía");
+            }
+		</script>
+{% endblock %}
+
+{% block central %}
+        <h2>A continuación se muestran todos los nicks de usuario junto a su rol. Podrá cambiar el rol de un superusurio, siempre que quede al menos uno</h2>
+        {% for user in usuarios %}
+            <div id="caja_usuario">
+                <p>Nick: {{ user.nick }}. Rol: {{ user.rol }}</p>
+            </div>
+        {% endfor %}
+
+        <h2>Formulario de cambio de permisos</h2>
+        <form action="" method="POST" id="formulario_super" name="formulario_super">			
+            <div id="caja_super"> 
+                <div id="nombres_superr">
+                    <label for="nick_permisos">Nick:</label> <br>
+                    <input type="text" id="nick_permisos" name="nick_permisos" /> <br>
+                    <label for="rol_permisos">Rol:</label><br>
+                    <select id="rol_permisos" name="rol_permisos">
+                        <option value="registrado">Registrado</option>
+                        <option value="moderador">Moderador</option>
+                        <option value="gestor">Gestor</option>
+                        <option value="super">Superusuario</option>
+                    </select>
+                </div>
+                <br>
+                <div id="enviar_super">
+                    <button type="submit" class="boton" onclick="comprobarSuperUsuarios()">Guardar cambios</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "padre.html" %}
+
+{% block head %}
+		<!--Así consigo que interprete bien los caracteres ajenos a la gramática inglesa-->	
+		<meta charset="utf-8" />
+		<meta name="description" content="Esta web te permitirá conocer la biografía de científicos y científicas relevantes en la historia de la humanidad" />
+		<title>
+			Página de registro
+		</title>
+		<script src="js/control_sesiones.js"></script>
+		<script>
+			if({{ error }})
+				alert("Ha habido algún error. Puede que su nick ya esté repetido");
+		</script>
+		<link href="css/estilos_registro_inicio.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block central %}
+		{% block mostrar_datos %}
+        <h2>
+            Formulario de registro
+        </h2>
+
+		{% endblock %}
+
+		<form action="" method="POST" id="formulario_registro" name="formulario_registro">			
+			<div id="caja"> 
+				<div id="nombres">
+					<label for="nombre">Nombre:</label>					
+					<label for="apellidos">Apellidos:</label>
+					<label for="correo">Correo:</label>
+					<label for="nick">Nick:</label>
+					<label for="contrasenia">Contraseña:</label>
+				</div>
+				<div id="campos">
+					<input type="text" id="nombre"name="nombre" />		
+					<input type="text" id="apellidos" name="apellidos"/>
+					<input type="text" id="correo" name="correo" />
+					<input type="text" id="nick" name="nick" />
+					<input type="text" id="contrasenia" name="contrasenia" />
+				</div>
+				<br>
+				<div id="enviar">
+					<button type="submit" class="boton" onclick="comprobarRegistro()">Registrar</button>
+				</div>
+			</div>
+		</form>
+
+{% endblock %}
